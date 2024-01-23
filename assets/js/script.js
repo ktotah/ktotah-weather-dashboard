@@ -1,0 +1,1 @@
+// Main JavaScript for to handle the logic
