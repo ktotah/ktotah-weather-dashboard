@@ -22,6 +22,7 @@ function getCoordinates(cityName, apiKey) {
 
 // Function to get current weather by coordinates
 function getWeather(lat, lon, apiKey) {
+    // Construct the URL for the 5-day weather forecast API, inserting the latitude, longitude, and API key into the query parameters
     const forecastUrl = ``;
 
     return fetch(forecastUrl)
