@@ -30,10 +30,35 @@ function initializeDashboard() {
 function handleCitySearch(cityName) {
     // Validate the city name
     // Use getCoordinates from api.js to get coordinates for the city
-    // Use getWeather from api.js to get weather data using coordinates
-    // Update the display with current weather and forecast updateCurrentWeatherDisplay()
-    // Update search history using updateSearchHistoryDisplay()
-    // Save the new search to local storage using saveSearchHistory()
+    getCoordinates(cityName)
+        .then(coords => {
+            // Use getWeather to get current weather data using coordinates
+            getWeather(coords.lat, coords.lon)
+                .then(currentWeather => {
+                    // Update the display with the current weather
+                    updateCurrentWeatherDisplay(currentWeather);
+                })
+                .catch(error => console.error(error));
+
+            // Use getForecast to get 5-day weather forecast data using coordinates
+            getForecast(coords.lat, coords.lon)
+                .then(forecast => {
+                    updateForecastDisplay(forecast);
+                })
+                .catch(error => console.error(error));
+        })
+        .catch(error)
+        .then(coords => getForecast(coords.lat, coords.lon))
+        .then(forecast => {
+            // Update the display with current weather and forecast
+            updateCurrentWeatherDisplay(forecast.list[0]); // ASSUMING THE FIRST ENTRY IS THE CURRENT WEATHER
+            updateForecastDisplay(/* pass in relevant data */);
+            // Update search history display 
+            updateSearchHistoryDisplay(cityName);
+            // Save the new search to local storage
+            saveSearchHistory(cityName);
+        })
+        .catch(error => console.error(error));
 }
 
 // Function to udpate the display for current weather

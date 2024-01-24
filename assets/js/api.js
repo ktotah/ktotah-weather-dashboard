@@ -2,10 +2,10 @@
 
 // Pseudocode:
 // Function to get coordinates for a city name
-function getCoordinates(cityName, apiKey) {
+function getCoordinates(cityName) {
     // Construct the URL for geocoding API, inserting the city name and API key into the query parameters
     // "limit=1" paramemter tells the API to only provide one result (the best match for the city name provided)
-    const geocodeUrl = ``;
+    const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${OPEN_WEATHER_API_KEY}`;
 
     // Make a network request to the constructed URL
     return fetch(geocodeUrl)
@@ -23,11 +23,31 @@ function getCoordinates(cityName, apiKey) {
 // Function to get current weather by coordinates
 function getWeather(lat, lon, apiKey) {
     // Construct the URL for the 5-day weather forecast API, inserting the latitude, longitude, and API key into the query parameters
-    const forecastUrl = ``;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
+
+    return fetch(weatherUrl)
+        .then(response => response.json()) 
+        .then(data => {
+            if (response.ok) {
+                return data;
+            } else {
+                throw new Error(`Error: ${response.statusText}`)
+            }
+        });
+}
+
+// Function to get 5-day forecast by coordinates
+function getForecast(lat, lon) {
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
 
     return fetch(forecastUrl)
-        .then(response => response.json()) 
-        .then(data => data);
+        .then(response => response.json())
+        .then(data => {
+            if (response.ok) {
+                return data;
+            } else {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+        });
 }
-// Function to get 5-day forecast by coordinates
 // Utility function to handle API responses and errors
