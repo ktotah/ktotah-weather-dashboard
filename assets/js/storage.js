@@ -13,9 +13,3 @@ function saveSearchHistory(cityName) {
 function loadSearchHistory() {
     return JSON.parse(localStorage.getItem('searchHistory')) || [];
 }
-
-
-
-
-
-

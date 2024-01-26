@@ -1,1 +1,27 @@
-/* Main stylesheet */
+/* Styles */
+
+/* Styles for the header title */
+.header-title {
+    /* background color, text allignment, etc. */
+}
+
+/* Styles for the search area and buttons */
+.search-area {
+    /* Add layout styles */
+}
+
+.search-history button {
+    /* add styles for the history buttons */
+}
+
+/* Styles for the weather display area */
+.weather-display-area {
+    /* Add layout styles */
+}
+
+/* Styles for the current weather and forecast sections */
+#current-weather-container, #forecast-container {
+    /* Add styling for weather information */
+}
+
+/* Add responsive design, font sizes, colors, etc., as needed */

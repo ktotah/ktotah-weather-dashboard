@@ -7,17 +7,21 @@ const currentWeatherContainer = document.getElementById('current-weather-contain
 const forecastContainer = document.getElementById('forecast-container');
 const historyList = document.getElementById('history-list');
 
-// Function to initialize the dashboard
+// Function to initialize the dashboard by loading any stored search history and displaying the last searched city's weather
 function initializeDashboard() {
-    // Load any previous search from local storage using loadSearchHistory()
-    // Set up any initial display elements
-    // If there's any search history, display the last searched city's weather
+    // Load seach history from local storage
+    const history = loadSearchHistory();
+    updateSearchHistoryDisplay(history);
+    // If there is any history, display the weather for the last searched city
+    if (history.lenght > 0) {
+        // Display the wather for the last searced city
+        handleCitySearch(history[0]);
+    }
 }
 
-// Function to handle city search
+// Function to handle city search: validate input, fetch coordinates, then weather data, and update UI
 function handleCitySearch(cityName) {
-    // Validate the city name
-    // Use getCoordinates from api.js to get coordinates for the city
+    // Get the geographical coordinates from the OpenWeatherMap Geocoding API
     getCoordinates(cityName)
         .then(coords => {
             // Use getWeather to get current weather data using coordinates
@@ -83,14 +87,18 @@ function updateSearchHistoryDisplay(historyData) {
 
 // Event listeners for search button and hsitory item clicks
 function setupEventListeners() {
-    searchBtn.addEventListener('click', () => {
-        const cityName = searchInput.value;
-        handleCitySearch(cityName);
+    searchBtn.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent page refresh
+        const cityName = searchInput.value.trim();
+        if (cityName) {
+            handleCitySearch(cityName);
+            searchInput.value = ''; // Clear the input
+        }
     });
-
+ 
     historyList.addEventListener('click', (event) => {
-        // Delegate the event to the list item
-        if(event.target.tagName === 'LI') {
+        // Delegate the event to the clicked button
+        if(event.target.tagName === 'BUTTON') {
             handleSearchHistoryClick(event.target.textContent);
         }
     });

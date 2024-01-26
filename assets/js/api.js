@@ -26,14 +26,13 @@ function getWeather(lat, lon, apiKey) {
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
 
     return fetch(weatherUrl)
-        .then(response => response.json()) 
-        .then(data => {
-            if (response.ok) {
-                return data;
-            } else {
-                throw new Error(`Error: ${response.statusText}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
             }
-        });
+            return response.json();
+        })
+        .then(data => data);
 }
 
 // Function to get 5-day forecast by coordinates
@@ -41,13 +40,12 @@ function getForecast(lat, lon) {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
 
     return fetch(forecastUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (response.ok) {
-                return data;
-            } else {
+        .then(response => {
+            if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
             }
-        });
+            return response.json();
+        })
+        .then(data => data);
 }
 // Utility function to handle API responses and errors
