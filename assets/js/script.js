@@ -7,18 +7,6 @@ const currentWeatherContainer = document.getElementById('current-weather-contain
 const forecastContainer = document.getElementById('forecast-container');
 const historyList = document.getElementById('history-list');
 
-// Function to save to local storage
-function saveSearchHistory(cityName) {
-    // Get current history from local storage or initialize an empty array if none
-    // Add the new city name to the history
-    // Save the updated history back to local storage
-}
-
-// Function to load from local storage
-function loadSearchHistory() {
-    // Load and return the search history from local storage
-}
-
 // Function to initialize the dashboard
 function initializeDashboard() {
     // Load any previous search from local storage using loadSearchHistory()
@@ -80,7 +68,17 @@ function updateForecastDisplay(forecastData) {
 
 // Function to update the search history display
 function updateSearchHistoryDisplay(historyData) {
-    // Display search hisotry list
+    // Clear out the current history list
+    historyList.innerHTML = '';
+
+    // Loop through the history data and create a button for each entry
+    historyData.forEach(city => {
+        const historyBtn = document.createElement('button');
+        historyBtn.textContent = city;
+        historyBtn.classList.add('history-btn'); // Add a class for styling
+        historyBtn.addEventListener('click', () => handleCitySearch(city));
+        historyList.appendChild(historyBtn)
+    })
 }
 
 // Event listeners for search button and hsitory item clicks
