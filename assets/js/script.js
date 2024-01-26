@@ -63,6 +63,11 @@ function handleCitySearch(cityName) {
 
 // Function to udpate the display for current weather
 function updateCurrentWeatherDisplay(weatherData) {
+    // clear existing data
+    currentWeatherContainer.innerHTML = '';
+
+    // Create elements and append them to currentWeatherContainer
+    
     // Display city name, date, icon representation of weather conditions, temperature, humidity, & wind speed
 
     // should i have current forecast involved in this function?
