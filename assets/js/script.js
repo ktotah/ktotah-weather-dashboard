@@ -1,4 +1,4 @@
-// Main JavaScript for to handle the logic
+// Main JavaScript file to handle the logic
 
 // Define constants for UI elements/DOM elements
 const searchBtn = document.getElementById('search-btn');
@@ -56,13 +56,13 @@ function updateCurrentWeatherDisplay(weatherData) {
     // clear existing data
     currentWeatherContainer.innerHTML = '';
 
-    // Create a div to hold the city name, date, and weather icon
+    // Create the container for the city name, date, and weather icon
     const cityDateIconContainer = document.createElement('div');
     cityDateIconContainer.className = 'city-date-icon';
 
     // Display city name and current date
     const cityNameAndDateEl = document.createElement('h2');
-    cityNameAndDateEl.textContent = `${weatherData.name} ($(new Date().toLocaleDateString()})`;
+    cityNameAndDateEl.textContent = `${weatherData.name} (${new Date().toLocaleDateString()})`;
     cityDateIconContainer.appendChild(cityNameAndDateEl);
 
     // Display weather icon
