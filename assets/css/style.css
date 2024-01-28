@@ -5,7 +5,8 @@
     /* background color, text allignment, etc. */
 }
 
-/* Styles for the search area and buttons */
+
+/* SEARCH AREA STYLING */
 .search-area {
     /* Add layout styles */
 }
@@ -14,14 +15,41 @@
     /* add styles for the history buttons */
 }
 
+
+
 /* Styles for the weather display area */
 .weather-display-area {
     /* Add layout styles */
 }
 
-/* Styles for the current weather and forecast sections */
-#current-weather-container, #forecast-container {
-    /* Add styling for weather information */
+
+
+/* CURRENT WEATHER SECTION STYLING*/
+#current-weather-container {
+    /* Add styling for forecast container */
+}
+
+.city-date-icon {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+}
+
+.city-date-icon h2 {
+    margin: 0;
+    white-space: nowrap; /* keeps city name and date in the same line */
+}
+
+/* Additional styling for the weather icon */
+.city-date-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* FORECAST SECTION STYLING */
+#forecast-container {
+    /* Add styling for forecast container */
 }
 
 /* Add responsive design, font sizes, colors, etc., as needed */

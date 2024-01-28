@@ -13,7 +13,7 @@ function initializeDashboard() {
     const history = loadSearchHistory();
     updateSearchHistoryDisplay(history);
     // If there is any history, display the weather for the last searched city
-    if (history.lenght > 0) {
+    if (history.length > 0) {
         // Display the wather for the last searced city
         handleCitySearch(history[0]);
     }
@@ -21,32 +21,29 @@ function initializeDashboard() {
 
 // Function to handle city search: validate input, fetch coordinates, then weather data, and update UI
 function handleCitySearch(cityName) {
+    // Validate the city name if necessary
+    if (!cityName) {
+        console.error('No city name provided');
+        return;
+    }
+
     // Get the geographical coordinates from the OpenWeatherMap Geocoding API
     getCoordinates(cityName)
         .then(coords => {
-            // Use getWeather to get current weather data using coordinates
-            getWeather(coords.lat, coords.lon)
-                .then(currentWeather => {
-                    // Update the display with the current weather
-                    updateCurrentWeatherDisplay(currentWeather);
-                })
-                .catch(error => console.error(error));
-
-            // Use getForecast to get 5-day weather forecast data using coordinates
-            getForecast(coords.lat, coords.lon)
-                .then(forecast => {
-                    updateForecastDisplay(forecast);
-                })
-                .catch(error => console.error(error));
+            // Once coordinates are retrieved, use getWeather to get current weather data using those coordinates
+            return getWeather(coords.lat, coords.lon);
         })
-        .catch(error)
-        .then(coords => getForecast(coords.lat, coords.lon))
+        .then(currentWeather => {
+            // Update the UI with the current weather
+            updateCurrentWeatherDisplay(currentWeather);
+            // Now, get the 5-day weather forecast data using the same coordinates
+            return getForecast(currentWeather.coord.lat, currentWeather.coord.lon);
+        })
         .then(forecast => {
-            // Update the display with current weather and forecast
-            updateCurrentWeatherDisplay(forecast.list[0]); // ASSUMING THE FIRST ENTRY IS THE CURRENT WEATHER
-            updateForecastDisplay(/* pass in relevant data */);
-            // Update search history display 
-            updateSearchHistoryDisplay(cityName);
+            // Update the UI with the forecast data
+            updateForecastDisplay(forecast);
+            // Update the search hisotry display
+            updateSearchHistoryDisplay(loadSearchHistory());
             // Save the new search to local storage
             saveSearchHistory(cityName);
         })
@@ -58,11 +55,39 @@ function updateCurrentWeatherDisplay(weatherData) {
     // clear existing data
     currentWeatherContainer.innerHTML = '';
 
-    // Create elements and append them to currentWeatherContainer
-    
-    // Display city name, date, icon representation of weather conditions, temperature, humidity, & wind speed
+    // Create a div to hold the city name, date, and weather icon
+    const cityDateIconContainer = document.createElement('div');
+    cityDateIconContainer.className = 'city-date-icon';
 
-    // should i have current forecast involved in this function?
+    // Display city name and current date
+    const cityNameAndDateEl = document.createElement('h2');
+    cityNameAndDateEl.textContent = `${weatherData.name} ($(new Date().toLocaleDateString()})`;
+    cityDateIconContainer.appendChild(cityNameAndDateEl);
+
+    // Display weather icon
+    const weatherIconEl = document.createElement('img');
+    weatherIconEl.src = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`;
+    weatherIconEl.alt = weatherData.weather[0].description;
+    cityDateIconContainer.appendChild(weatherIconEl);
+
+    // Append the cityDateIconContainer to the currentWeatherContainer
+    currentWeatherContainer.appendChild(cityDateIconContainer);
+
+    // Subsequent details (temp, wind, humidity) on new lines
+    // Display temperature
+    const tempEl = document.createElement('p');
+    tempEl.textContent =   `Temp: ${weatherData.main.temp}°F`;
+    currentWeatherContainer.appendChild(tempEl);
+
+    // Display wind speed
+    const windEl = document.createElement('p');
+    windEl.textContent = `Wind: ${weatherData.wind.speed} MPH`;
+    currentWeatherContainer.appendChild(windEl);
+
+    //Display humidity
+    const humidityEl = document.createElement('p');
+    humidityEl.textContent = `Humidity: ${weatherData.main.humidity}%`;
+    currentWeatherContainer.appendChild(humidityEl);
 }
 
 // Function to update the display for 5-day forecast (future weather conditions)
