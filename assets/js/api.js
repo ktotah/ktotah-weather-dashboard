@@ -22,8 +22,7 @@ function getCoordinates(cityName) {
 }
 
 // Function to get current weather by coordinates
-function getWeather(lat, lon, apiKey) {
-    // Construct the URL for the 5-day weather forecast API, inserting the latitude, longitude, and API key into the query parameters
+function getWeather(lat, lon) {
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
 
     return fetch(weatherUrl)
@@ -33,7 +32,15 @@ function getWeather(lat, lon, apiKey) {
             }
             return response.json();
         })
-        .then(data => data);
+        .then(data => {
+            const weatherData = data;
+            const cityNameFromAPI = data.name
+            
+            updateCurrentWeatherDisplay(weatherData);
+            console.log(`Weather data fetched for city: ${cityNameFromAPI}`);
+
+            return weatherData;
+        });
 }
 
 // Function to get 5-day forecast by coordinates
