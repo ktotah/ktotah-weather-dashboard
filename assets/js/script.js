@@ -21,6 +21,7 @@ function initializeDashboard() {
 
 // Function to handle city search: validate input, fetch coordinates, then weather data, and update UI
 function handleCitySearch(cityName) {
+    console.log("Searching for:", cityName); // Confirm function is called
     // Validate the city name if necessary
     if (!cityName) {
         console.error('No city name provided');
@@ -113,11 +114,12 @@ function updateSearchHistoryDisplay(historyData) {
 // Event listeners for search button and hsitory item clicks
 function setupEventListeners() {
     searchBtn.addEventListener('click', (event) => {
+        console.log("Search button clicked"); // Check if this logs
         event.preventDefault(); // Prevent page refresh
         const cityName = searchInput.value.trim();
+        console.log("City to search:", cityName); // Verify the city name
         if (cityName) {
             handleCitySearch(cityName);
-            searchInput.value = ''; // Clear the input
         }
     });
  

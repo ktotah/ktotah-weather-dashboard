@@ -3,21 +3,22 @@
 // Pseudocode:
 // Function to get coordinates for a city name
 function getCoordinates(cityName) {
-    // Construct the URL for geocoding API, inserting the city name and API key into the query parameters
-    // "limit=1" paramemter tells the API to only provide one result (the best match for the city name provided)
+    // API call
     const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${OPEN_WEATHER_API_KEY}`;
 
     // Make a network request to the constructed URL
     return fetch(geocodeUrl)
-        .then(response = response.json()) // Parse the JSON from the response when it's available
+        .then(response => response.json()) // Parse the JSON from the response when it's available
         .then(data => { // Handle the parsed data, which is now a JavaScript object
+            console.log("Coordinates data:", data); // Log data
             if (data.length > 0) { // Check if the array has at least one item (i.e., a city was found)
                 const { lat, lon } = data[0]; // Destructire the latitude and longitude from the first item in the array
                 return { lat, lon}; // Return an object containing the latitude and longitude
             } else {
                 throw new Error('City not found'); // If the array is empty, no city was found, so throw an error
             }
-        });
+        })
+        .catch(error => console.error("Error fetching coordinates:", error));  
 }
 
 // Function to get current weather by coordinates
