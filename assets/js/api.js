@@ -32,15 +32,7 @@ function getWeather(lat, lon) {
             }
             return response.json();
         })
-        .then(data => {
-            const weatherData = data;
-            const cityNameFromAPI = data.name
-            
-            updateCurrentWeatherDisplay(weatherData);
-            console.log(`Weather data fetched for city: ${cityNameFromAPI}`);
-
-            return weatherData;
-        });
+        .then(data => data);
 }
 
 // Function to get 5-day forecast by coordinates
