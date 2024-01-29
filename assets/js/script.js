@@ -107,7 +107,7 @@ function updateSearchHistoryDisplay(historyData) {
     })
 }
 
-// Event listeners for search button and hsitory item clicks
+// Event listeners for search button and history item clicks
 function setupEventListeners() {
     searchBtn.addEventListener('click', (event) => {
         console.log("Search button clicked"); // Check if this logs
