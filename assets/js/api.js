@@ -32,12 +32,13 @@ function getWeather(lat, lon) {
             }
             return response.json();
         })
-        .then(data => data);
 }
 
 // Function to get 5-day forecast by coordinates
 function getForecast(lat, lon) {
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
+    
+    console.log(forecastUrl);
 
     return fetch(forecastUrl)
         .then(response => {
@@ -46,6 +47,4 @@ function getForecast(lat, lon) {
             }
             return response.json();
         })
-        .then(data => data);
 }
-// Utility function to handle API responses and errors
