@@ -30,12 +30,12 @@ function handleCitySearch(cityName) {
     // Get the geographical coordinates from the OpenWeatherMap Geocoding API
     getCoordinates(cityName)
         .then(coords => {
-            console.log("Coordinates received:", coords); // Log the coordinates
+            console.log('Coordinates received:', coords); // Log the coordinates
             return getWeather(coords.lat, coords.lon);
         })
-        .catch(error => console.error("Error fetching coodinates for city:", cityName, error))
+        .catch(error => console.error('Error fetching coodinates for city:', cityName, error))
         .then(currentWeather => {
-            console.log("Current weather data:", currentWeather); // Log current weather
+            console.log('Current weather data:', currentWeather); // Log current weather
             // Update the UI with the current weather
             updateCurrentWeatherDisplay(currentWeather);
             // Save the API's city name to the search history local storage
@@ -43,15 +43,15 @@ function handleCitySearch(cityName) {
             // Now, get the 5-day weather forecast data using the same coordinates
             return getForecast(currentWeather.coord.lat, currentWeather.coord.lon);
         })
-        .catch(error => console.error("Error fetching current weather:", error))
+        .catch(error => console.error('Error fetching current weather:', error))
         .then(forecast => {
-            console.log("Full forecast data:", forecast)
+            console.log('Full forecast data:', forecast)
             // Update the UI with the forecast data
             updateForecastDisplay(forecast); // Log full forecast
             // Update the search history display
             updateSearchHistoryDisplay(loadSearchHistory());
         })
-        .catch(error => console.error("Error fetching forcast data:", error));
+        .catch(error => console.error('Error fetching forcast data:', error));
 }
 
 // Function to udpate the display for current weather
@@ -100,10 +100,6 @@ function updateCurrentWeatherDisplay(weatherData) {
 
 // Function to update the display for the 5-day forecast
 function updateForecastDisplay(forecastData) {
-     // Filter our every 8th forecast from the list to get approximately one forecast per day, since the 5 day forecast data set includes weather forecast data with a 3-hour step
-     const dailyForecasts = forecastData.list.filter((item, index) => index % 8 === 0);
-     console.log("Filtered daily forecasts:", dailyForecasts); // Log filtered forecasts
- 
     // Accessing the container element in the DOM where the forecast cards will be displayed
     const forecastContainer = document.getElementById('forecast-cards-container');
 
@@ -115,6 +111,25 @@ function updateForecastDisplay(forecastData) {
         console.error('No forecast data available');
         return; // Exiting the function if no data is present
     }
+
+    // NOTE: I am using NOON (12:00) as my target time-of-day to get the weather data from for each day in the 5-day forecast
+
+    // Define indices for the forecast data based on current time
+    const now = new Date();
+    console.log('Now: ', now); // Log current date and time
+    let indices; 
+    if (now.getHours() < 12) {
+        // If the current time is before noon, use indices starting from tomorrow's noon
+        indices = [8, 16, 24, 32, 39]; // getting data points as close to noon every day as possible for the following 5 days (the first 4 data points will be for noon for the following 4 days and the last data point for 5 days from now will be from 9am - as that is the last point in the 5-day forecast array)
+    } else {
+        // If current time is noon or later, use indices starting from tomorrow's noon (it shifts due to the 5-day forecast starting at the upcoming noon and providing a total of 40 data points)
+        indices = [0, 8, 16, 24, 32];
+    }
+
+    // Collect the forecasts for the defined indices
+    const dailyForecasts = indices.map(index => forecastData.list[index]).filter(item => item !== undefined);
+    
+    console.log('Daily forecasts: ',dailyForecasts); // Log daily forecasts
 
     // Iterating over each day's data in the forecast
     dailyForecasts.forEach(dayForecast => {
@@ -177,10 +192,10 @@ function updateSearchHistoryDisplay(historyData) {
 // Event listeners for search button and history item clicks
 function setupEventListeners() {
     searchBtn.addEventListener('click', (event) => {
-        console.log("Search button clicked"); // Check if this logs
+        console.log('Search button clicked'); // Check if this logs
         event.preventDefault(); // Prevent page refresh
         const cityName = searchInput.value.trim();
-        console.log("City to search:", cityName); // Verify the city name
+        console.log('City to search:', cityName); // Verify the city name
         if (cityName) {
             handleCitySearch(cityName);
         }
