@@ -48,7 +48,7 @@ function handleCitySearch(cityName) {
             console.log("Full forecast data:", forecast)
             // Update the UI with the forecast data
             updateForecastDisplay(forecast); // Log full forecast
-            // Update the search hisotry display
+            // Update the search history display
             updateSearchHistoryDisplay(loadSearchHistory());
         })
         .catch(error => console.error("Error fetching forcast data:", error));
@@ -204,5 +204,11 @@ function setupEventListeners() {
 // When the document is fully loaded, set up the event listeners and intialize the dashbaord
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
-    initializeDashboard();
+    // Check if there's any history, if not, load default city weather
+    const history = loadSearchHistory();
+    if (history.length > 0) {
+        initializeDashboard();
+    } else {
+        handleCitySearch('New York'); // Setting New York as the default search city when the page loads so that it doesn't just have an empty display for the current weather and 5-day forecast
+    }
 });

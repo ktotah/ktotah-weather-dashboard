@@ -180,6 +180,10 @@ h3 {
     padding: 20px;
     border-radius: 10px;
     width: calc(20% - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    word-wrap: break-word; /* Ensures the text wraps inside the card */
 }
 
 .forecast-card h4{
