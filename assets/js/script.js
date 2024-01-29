@@ -125,6 +125,13 @@ function setupEventListeners() {
             handleCitySearch(event.target.textContent);
         }
     });
+
+    const clearSearchHistoryBtn = document.getElementById('clear-search-history-btn');
+
+    clearSearchHistoryBtn.addEventListener('click', () => {
+        clearSearchHistory();
+        updateSearchHistoryDisplay([]);
+    });
 }
 
 // When the document is fully loaded, set up the event listeners and intialize the dashbaord
