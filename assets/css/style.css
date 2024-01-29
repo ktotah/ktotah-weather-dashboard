@@ -39,7 +39,9 @@ h3 {
 }
 
 
+
 /* SEARCH AREA STYLING */
+
 .search-area {
     flex: 1;
     max-width: 300px;
@@ -119,18 +121,27 @@ h3 {
 }
 
 
+
 /* CURRENT WEATHER SECTION STYLING */
+
 .weather-display-area {
-    flex: 3; /* Takes the remaining space */max-width: 600px;
+    flex: 3; /* Takes the remaining space */max-width: 900px;
     padding: 10xpx;
     margin-right: 30px;
     margin-left: 30px;
-    margin-top: 45px;
+    margin-top: 20px;
     border-radius: 8px;
 }
 
 #current-weather-container {
-   
+    border: 1px solid #000000; 
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: rgb(127, 212, 255); /* Made this container's background color different in order to make sure the icons from OpenWeatherMap's API are more visible */
+}
+
+#current-weather-container p {
+    margin-bottom: 10px;
 }
 
 .city-date-icon {
@@ -151,9 +162,36 @@ h3 {
 }
 
 
+
 /* FORECAST SECTION STYLING */
+/* 
 #forecast-container {
-    /* Add styling for forecast container */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 30px;
 }
 
-/* Add responsive design, font sizes, colors, etc., as needed */
+#forecast-cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+     */
+
+
+/* Add responsive design, font sizes, colors, etc., as needed
+@media (max-width: 768px) {
+    .search-area, #current-weather-container, #forecast-container {
+        border-radius: 0; /* Full width on smaller screens */
+    /* } */
+/*     
+    #search-input {
+        width: calc(100% - 120px); /* Adjust for smaller screens */
+    /* }
+    
+    #forecast-cards-container {
+        flex-direction: column;
+    }
+} */ 
