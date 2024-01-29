@@ -126,7 +126,7 @@ function setupEventListeners() {
     historyList.addEventListener('click', (event) => {
         // Delegate the event to the clicked button
         if(event.target.tagName === 'BUTTON') {
-            handleSearchHistoryClick(event.target.textContent);
+            handleCitySearch(event.target.textContent);
         }
     });
 }
