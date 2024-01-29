@@ -21,7 +21,6 @@ function initializeDashboard() {
 
 // Function to handle city search: validate input, fetch coordinates, then weather data, and update UI
 function handleCitySearch(cityName) {
-    console.log("Searching for:", cityName); // Confirm function is called
     // Validate the city name if necessary
     if (!cityName) {
         console.error('No city name provided');
@@ -30,13 +29,12 @@ function handleCitySearch(cityName) {
 
     // Get the geographical coordinates from the OpenWeatherMap Geocoding API
     getCoordinates(cityName)
-        .then(coords => {
-            // Once coordinates are retrieved, use getWeather to get current weather data using those coordinates
-            return getWeather(coords.lat, coords.lon);
-        })
+        .then(coords => getWeather(coords.lat, coords.lon))
         .then(currentWeather => {
             // Update the UI with the current weather
             updateCurrentWeatherDisplay(currentWeather);
+            // Save the API's city name to the search history local storage
+            saveSearchHistory(currentWeather.name); // <-- Use the name from the API
             // Now, get the 5-day weather forecast data using the same coordinates
             return getForecast(currentWeather.coord.lat, currentWeather.coord.lon);
         })
@@ -45,8 +43,6 @@ function handleCitySearch(cityName) {
             updateForecastDisplay(forecast);
             // Update the search hisotry display
             updateSearchHistoryDisplay(loadSearchHistory());
-            // Save the new search to local storage
-            saveSearchHistory(cityName);
         })
         .catch(error => console.error(error));
 }
