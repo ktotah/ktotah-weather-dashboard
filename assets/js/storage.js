@@ -13,9 +13,9 @@ function saveSearchHistory(cityName) {
     // Add the city to the beginning of the history array
     history.unshift(cityName);
 
-    // Ensure the history doesn't exceed 8 items
-    if (history.length > 8) {
-        history.pop(); // Remove the oldest search if there are more than 8 items
+    // Ensure the history doesn't exceed 7 items
+    if (history.length > 7) {
+        history.pop(); // Remove the oldest search if there are more than 7 items
     }
 
     // Save the updated history to local storage
