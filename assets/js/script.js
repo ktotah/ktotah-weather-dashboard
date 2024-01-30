@@ -195,7 +195,7 @@ function updateForecastDisplay(forecastData) {
         // Creating and appending an element to display the wind speed
         const forecastWindEl = document.createElement('p');
         // Rouding the wind speed to two decimal places
-        forecastWindEl.textContent = `Wind: ${dayForecast.wind.speed.toFixed(2)} mph`;
+        forecastWindEl.textContent = `Wind: ${dayForecast.wind.speed.toFixed(2)}mph`;
         forecastCard.appendChild(forecastWindEl);
 
         // Creating and appending an element to display the humidity
