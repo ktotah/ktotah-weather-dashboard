@@ -6,7 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Weather Dashboard</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>  <!-- Moment.js: I did research on how to adjust the data to reflect the local time for the coordinates, and the stackoverflow post I found suggested getting the current time using timezone offset using moment.js-->
+       <!-- Include Day.js main script -->
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+        <!-- Include Day.js UTC plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+        <!-- Include Day.js Timezone plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+        <!-- Initialize Day.js plugins in a script tag or an external JavaScript file -->
+        <script>
+        dayjs.extend(dayjs_plugin_utc);
+        dayjs.extend(dayjs_plugin_timezone);
+        </script>
         <link rel="stylesheet" href="./assets/css/style.css" />
     </head>
 

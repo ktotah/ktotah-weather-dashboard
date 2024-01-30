@@ -118,12 +118,12 @@ function updateForecastDisplay(forecastData) {
     console.log('Timezone offset (in seconds): ', timezoneOffset); // Log timezone offset (in seconds)
 
     // Current local date in the timezone of the forecast location 
-    const currentLocalDate = moment().utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+    const currentLocalDate = dayjs().utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
     console.log('Current local date: ', currentLocalDate); // Log current local date
 
     // Filter out forecasts for the current local date
     let futureForecasts = forecastData.list.filter(forecast => {
-        const localDate = moment.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+        const localDate = dayjs.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
         return localDate > currentLocalDate; 
     });
     console.log('Future forecasts (filtered for future dates only): ', futureForecasts); // Log future forecasts
@@ -131,7 +131,7 @@ function updateForecastDisplay(forecastData) {
     // Group forecasts by local date
     let forecastsByDate = {};
     futureForecasts.forEach(forecast => {
-        const localDate = moment.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+        const localDate = dayjs.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
         if (!forecastsByDate[localDate]) {
             forecastsByDate[localDate] = [];
         }
@@ -144,8 +144,8 @@ function updateForecastDisplay(forecastData) {
     for (let date in forecastsByDate) {
         let closestForecast = forecastsByDate[date].reduce((prev, current) => {
             // Convert forecast times to hours in the local timezone
-            const currentHour = moment.unix(current.dt).utcOffset(timezoneOffset / 60).hour();
-            const prevHour = moment.unix(prev.dt).utcOffset(timezoneOffset / 60).hour();
+            const currentHour = dayjs.unix(current.dt).utcOffset(timezoneOffset / 60).hour();
+            const prevHour = dayjs.unix(prev.dt).utcOffset(timezoneOffset / 60).hour();
 
             // Calculate the absolute idfference from 15:00 (3 PM)
             const currentDiff = Math.abs(currentHour - 15);
