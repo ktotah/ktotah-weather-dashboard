@@ -61,11 +61,15 @@ function updateCurrentWeatherDisplay(weatherData, timezone) {
 
     // Define the timezone offset
     const timezoneOffset = weatherData.timezone; // The timezone offset is in seconds
+    console.log('Timezone offset received: ', timezoneOffset, ' seconds'); // Log timezone offset
 
     // Get the local time using the timezone offset
     const localTime = dayjs().utcOffset(timezoneOffset / 60);
+    console.log('Local time calculated with offset: ', localTime); // Log local time
+
     // Format the local time to a readable date string
     const formattedDate = localTime.format('MM/DD/YYYY');
+    console.log('Formatted local date: ', formattedDate); // Log formatted date
 
     // Create a div element to contain the city name, date, and weather icon
     const cityDateIconContainer = document.createElement('div');
