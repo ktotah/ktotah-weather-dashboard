@@ -105,6 +105,7 @@ function updateForecastDisplay(forecastData) {
 
     // Clear existing content
     forecastContainer.innerHTML = ''; 
+    console.log('Forecast data received:', forecastData); // Log forecast data
 
     // Checking if forecast data is available
     if (!forecastData.list || forecastData.list.length === 0) {
@@ -112,24 +113,59 @@ function updateForecastDisplay(forecastData) {
         return; // Exiting the function if no data is present
     }
 
-    // NOTE: I am using NOON (12:00) as my target time-of-day to get the weather data from for each day in the 5-day forecast
+    // Determine the timezone offset
+    const timezoneOffset = forecastData.city.timezone; // Timezone offset in seconds
+    console.log('Timezone offset (in seconds): ', timezoneOffset); // Log timezone offset (in seconds)
 
-    // Define indices for the forecast data based on current time
-    const now = new Date();
-    console.log('Now: ', now); // Log current date and time
-    let indices; 
-    if (now.getHours() < 12) {
-        // If the current time is before noon, use indices starting from tomorrow's noon
-        indices = [8, 16, 24, 32, 39]; // getting data points as close to noon every day as possible for the following 5 days (the first 4 data points will be for noon for the following 4 days and the last data point for 5 days from now will be from 9am - as that is the last point in the 5-day forecast array)
-    } else {
-        // If current time is noon or later, use indices starting from tomorrow's noon (it shifts due to the 5-day forecast starting at the upcoming noon and providing a total of 40 data points)
-        indices = [0, 8, 16, 24, 32];
+    // Current local date in the timezone of the forecast location 
+    const currentLocalDate = moment().utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+    console.log('Current local date: ', currentLocalDate); // Log current local date
+
+    // Filter out forecasts for the current local date
+    let futureForecasts = forecastData.list.filter(forecast => {
+        const localDate = moment.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+        return localDate > currentLocalDate; 
+    });
+    console.log('Future forecasts (filtered for future dates only): ', futureForecasts); // Log future forecasts
+
+    // Group forecasts by local date
+    let forecastsByDate = {};
+    futureForecasts.forEach(forecast => {
+        const localDate = moment.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
+        if (!forecastsByDate[localDate]) {
+            forecastsByDate[localDate] = [];
+        }
+        forecastsByDate[localDate].push(forecast);
+    });
+    console.log('Forecasts grouped by date: ', forecastsByDate); // Log forecasts grouped by date
+
+    // Ensure we always get 5 days of forecasts
+    let dailyForecasts = [];
+    for (let date in forecastsByDate) {
+        let closestForecast = forecastsByDate[date].reduce((prev, current) => {
+            // Convert forecast times to hours in the local timezone
+            const currentHour = moment.unix(current.dt).utcOffset(timezoneOffset / 60).hour();
+            const prevHour = moment.unix(prev.dt).utcOffset(timezoneOffset / 60).hour();
+
+            // Calculate the absolute idfference from 15:00 (3 PM)
+            const currentDiff = Math.abs(currentHour - 15);
+            const prevDiff = Math.abs(prevHour - 15);
+
+            // If the current forecast is closer to 15:00 than the previous one, use the current
+            // Otherwise, keep the previous
+            return (currentDiff < prevDiff) ? current : prev;
+        }, forecastsByDate[date][0]); // Start with the first forecast of the day as the initial value
+
+        // Add the closest forecast to the daily forecasts
+        dailyForecasts.push(closestForecast);
     }
-
-    // Collect the forecasts for the defined indices
-    const dailyForecasts = indices.map(index => forecastData.list[index]).filter(item => item !== undefined);
     
-    console.log('Daily forecasts: ',dailyForecasts); // Log daily forecasts
+    // Check if we have a forecast for each of the 5 days
+    if (dailyForecasts.length < 5 && futureForecasts.length > 0) {
+        // If not, add the last available forecast to complete the 5 days
+        dailyForecasts.push(futureForecasts[futureForecasts.length -1]);
+    }
+    console.log('Daily forecasts (closest to 3 PM): ', dailyForecasts);
 
     // Iterating over each day's data in the forecast
     dailyForecasts.forEach(dayForecast => {
