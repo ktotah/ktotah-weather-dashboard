@@ -5,7 +5,7 @@
 - [Project Background](#project-background)
 - [Deployed Application](#deployed-application)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
+- [Screenshot](#screenshot)
 - [Testing](#testing)
 - [Author and Acknowledgment](#author-and-acknowledgement)
 - [License](#license)
@@ -38,7 +38,7 @@ To use the Weather Dashboard, simply follow these steps:
 
 The application is designed to be intuitive, with a clean and polished user interface that ensures an enjoyable and straightfoward experience. 
 
-## Screenshots
+## Screenshot
 
 Below is a **screenshot** of the deployed application, featuring Seattle's current weather conditions including temperature, wind speed, and humity, alongside a 5-day weather forecase with each day's expected conditions. The interface also presents a search area for city queries and a list of previously searched cities as buttons for quick access:
 ![Screenshot of the Weather Dashboard application. The main display shows Seattle's weather for January 30, 2024, with a temperature of 56.54 degrees Fahrenheit, wind at 6.91 MPH, and 84% humidity. Below, a 5-day forecast presents weather predicitons from January 31 to February 4. On the left-hand side, a search interface allows city lookups, and a hisotry of searched cities are presented as a list of buttons for quick access to searched cities like Anchorage, Honolulu, and Denver.](assets/media/screenshot.png)
