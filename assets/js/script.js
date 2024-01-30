@@ -30,13 +30,10 @@ function handleCitySearch(cityName) {
     // Get the geographical coordinates from the OpenWeatherMap Geocoding API
     getCoordinates(cityName)
         .then(coords => {
-            console.log('Coordinates received:', coords); // Log the coordinates
             return getWeather(coords.lat, coords.lon);
         })
         .catch(error => console.error('Error fetching coodinates for city:', cityName, error))
         .then(currentWeather => {
-            console.log('Current weather data:', currentWeather); // Log current weather
-            // Update the UI with the current weather
             updateCurrentWeatherDisplay(currentWeather);
             // Save the API's city name to the search history local storage
             saveSearchHistory(currentWeather.name); // <-- Use the name from the API
@@ -45,8 +42,6 @@ function handleCitySearch(cityName) {
         })
         .catch(error => console.error('Error fetching current weather:', error))
         .then(forecast => {
-            console.log('Full forecast data:', forecast)
-            // Update the UI with the forecast data
             updateForecastDisplay(forecast); // Log full forecast
             // Update the search history display
             updateSearchHistoryDisplay(loadSearchHistory());
@@ -61,15 +56,12 @@ function updateCurrentWeatherDisplay(weatherData, timezone) {
 
     // Define the timezone offset
     const timezoneOffset = weatherData.timezone; // The timezone offset is in seconds
-    console.log('Timezone offset received: ', timezoneOffset, ' seconds'); // Log timezone offset
 
     // Get the local time using the timezone offset
     const localTime = dayjs().utcOffset(timezoneOffset / 60);
-    console.log('Local time calculated with offset: ', localTime); // Log local time
 
     // Format the local time to a readable date string
     const formattedDate = localTime.format('MM/DD/YYYY');
-    console.log('Formatted local date: ', formattedDate); // Log formatted date
 
     // Create a div element to contain the city name, date, and weather icon
     const cityDateIconContainer = document.createElement('div');
@@ -117,8 +109,7 @@ function updateForecastDisplay(forecastData) {
     const forecastContainer = document.getElementById('forecast-cards-container');
 
     // Clear existing content
-    forecastContainer.innerHTML = ''; 
-    console.log('Forecast data received:', forecastData); // Log forecast data
+    forecastContainer.innerHTML = '';
 
     // Checking if forecast data is available
     if (!forecastData.list || forecastData.list.length === 0) {
@@ -128,18 +119,15 @@ function updateForecastDisplay(forecastData) {
 
     // Determine the timezone offset
     const timezoneOffset = forecastData.city.timezone; // Timezone offset in seconds
-    console.log('Timezone offset (in seconds): ', timezoneOffset); // Log timezone offset (in seconds)
 
     // Current local date in the timezone of the forecast location 
     const currentLocalDate = dayjs().utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
-    console.log('Current local date: ', currentLocalDate); // Log current local date
 
     // Filter out forecasts for the current local date
     let futureForecasts = forecastData.list.filter(forecast => {
         const localDate = dayjs.unix(forecast.dt).utcOffset(timezoneOffset / 60).format('YYYY-MM-DD');
         return localDate > currentLocalDate; 
     });
-    console.log('Future forecasts (filtered for future dates only): ', futureForecasts); // Log future forecasts
 
     // Group forecasts by local date
     let forecastsByDate = {};
@@ -150,7 +138,6 @@ function updateForecastDisplay(forecastData) {
         }
         forecastsByDate[localDate].push(forecast);
     });
-    console.log('Forecasts grouped by date: ', forecastsByDate); // Log forecasts grouped by date
 
     // Ensure we always get 5 days of forecasts
     let dailyForecasts = [];
@@ -178,7 +165,6 @@ function updateForecastDisplay(forecastData) {
         // If not, add the last available forecast to complete the 5 days
         dailyForecasts.push(futureForecasts[futureForecasts.length -1]);
     }
-    console.log('Daily forecasts (closest to 3 PM): ', dailyForecasts);
 
     // Iterating over each day's data in the forecast
     dailyForecasts.forEach(dayForecast => {
@@ -241,10 +227,8 @@ function updateSearchHistoryDisplay(historyData) {
 // Event listeners for search button and history item clicks
 function setupEventListeners() {
     searchBtn.addEventListener('click', (event) => {
-        console.log('Search button clicked'); // Check if this logs
         event.preventDefault(); // Prevent page refresh
         const cityName = searchInput.value.trim();
-        console.log('City to search:', cityName); // Verify the city name
         if (cityName) {
             handleCitySearch(cityName);
         }
