@@ -55,18 +55,27 @@ function handleCitySearch(cityName) {
 }
 
 // Function to udpate the display for current weather
-function updateCurrentWeatherDisplay(weatherData) {
+function updateCurrentWeatherDisplay(weatherData, timezone) {
     // Clear existing data
     currentWeatherContainer.innerHTML = '';
+
+    // Define the timezone offset
+    const timezoneOffset = weatherData.timezone; // The timezone offset is in seconds
+
+    // Get the local time using the timezone offset
+    const localTime = dayjs().utcOffset(timezoneOffset / 60);
+    // Format the local time to a readable date string
+    const formattedDate = localTime.format('MM/DD/YYYY');
 
     // Create a div element to contain the city name, date, and weather icon
     const cityDateIconContainer = document.createElement('div');
     cityDateIconContainer.className = 'city-date-icon'; // Assigning a class for styling
 
-    // Create an append an element to display the city name and current date
+    // Create an element to display the city name and current date
     const cityNameAndDateEl = document.createElement('h2');
-    // Combining city name from weatherData and current date into a single string
-    cityNameAndDateEl.textContent = `${weatherData.name} (${new Date().toLocaleDateString()})`;
+
+    // Combining city name from weatherData and formatted current local date into a single string
+    cityNameAndDateEl.textContent = `${weatherData.name} (${formattedDate})`;
     cityDateIconContainer.appendChild(cityNameAndDateEl);
 
     // Create and append an image element for the weather icon
