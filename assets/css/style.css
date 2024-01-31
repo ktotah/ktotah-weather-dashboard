@@ -144,6 +144,7 @@ h3 {
 
 .city-date-icon {
     display: flex;
+    flex-wrap: wrap;
     align-items: center; 
     gap: 10px;
 }
@@ -247,7 +248,6 @@ h3 {
     .search-history {
         display: grid;
         grid-template-columns: repeat(4, 1fr); /* Creates a 4-column grid */
-        gap: 10px;
     }
 
     #history-list { 
@@ -288,12 +288,7 @@ h3 {
     h1 {
         font-size: 35px;
     }
-
-    .city-date-icon {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
+    
     .city-date-icon h2 {
         white-space: wrap;
     }
@@ -306,7 +301,7 @@ h3 {
         grid-template-columns: repeat(3, 1fr); /* Creates a 3-column grid */
     }
  }
- 
+
  @media (max-width: 380px) {
     h1 {
         font-size: 30px;
