@@ -291,6 +291,7 @@ h3 {
     h1 {
         font-size: 35px;
     }
+    
 
     .city-date-icon {
         display: flex;
@@ -312,7 +313,7 @@ h3 {
     }
  }
 
- @media (max-width: 380px) {
+ @media (max-width: 415px) {
     h1 {
         font-size: 30px;
     }
