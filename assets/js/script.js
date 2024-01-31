@@ -67,12 +67,16 @@ function updateCurrentWeatherDisplay(weatherData, timezone) {
     const cityDateIconContainer = document.createElement('div');
     cityDateIconContainer.className = 'city-date-icon'; // Assigning a class for styling
 
-    // Create an element to display the city name and current date
-    const cityNameAndDateEl = document.createElement('h2');
+    // Create and append an element to display the city name
+    const cityNameEl = document.createElement('h2');
+    cityNameEl.textContent = `${weatherData.name} `;
+    cityDateIconContainer.appendChild(cityNameEl);
 
-    // Combining city name from weatherData and formatted current local date into a single string
-    cityNameAndDateEl.textContent = `${weatherData.name} (${formattedDate})`;
-    cityDateIconContainer.appendChild(cityNameAndDateEl);
+    // Create and append an element to display the current date
+    const cityDateEl = document.createElement('h2');
+    cityDateEl.textContent = `(${formattedDate})`;
+    cityDateIconContainer.appendChild(cityDateEl);
+
 
     // Create and append an image element for the weather icon
     const weatherIconEl = document.createElement('img');
