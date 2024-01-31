@@ -283,3 +283,40 @@ h3 {
         font-size: 12px;
     }
  }
+ 
+ @media (max-width: 560px) {
+    h1 {
+        font-size: 35px;
+    }
+
+    .city-date-icon {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .city-date-icon h2 {
+        white-space: wrap;
+    }
+
+    .forecast-card {
+        width: calc(50% - 10px); /* Set width for two cards max per row */
+    }
+
+    .search-history  {
+        grid-template-columns: repeat(3, 1fr); /* Creates a 3-column grid */
+    }
+ }
+ 
+ @media (max-width: 380px) {
+    h1 {
+        font-size: 30px;
+    }
+
+    .search-history  {
+        grid-template-columns: repeat(2, 1fr); /* Creates a 2-column grid */
+    }
+
+    .forecast-card {
+        width: calc(100% - 10px); /* Set width for one card max per row */
+    }
+ }
