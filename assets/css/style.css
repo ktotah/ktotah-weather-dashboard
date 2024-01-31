@@ -145,6 +145,7 @@ h3 {
 .city-date-icon {
     display: flex;
     flex-wrap: wrap;
+    text-wrap: wrap;
     align-items: center; 
     gap: 10px;
 }
@@ -288,7 +289,7 @@ h3 {
     h1 {
         font-size: 35px;
     }
-    
+
     .city-date-icon h2 {
         white-space: wrap;
     }
