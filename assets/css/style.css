@@ -293,8 +293,12 @@ h3 {
     }
 
     .city-date-icon {
-        
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
     }
+
     .city-date-icon h2 {
         white-space: wrap;
     }
