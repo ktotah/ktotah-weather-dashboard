@@ -254,6 +254,7 @@ h3 {
 
     #history-list { 
         display: contents; /* This will make the children directly part of the grid */
+        gap: 10px;
     }
 
     .search-history button, #clear-search-history-btn{
